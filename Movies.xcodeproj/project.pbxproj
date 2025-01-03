@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F9D0A3002D280B0C00615A68 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A2FF2D280B0C00615A68 /* Alamofire */; };
+		F9D0A3032D280B1F00615A68 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A3022D280B1F00615A68 /* SnapKit */; };
+		F9D0A3062D280B3100615A68 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A3052D280B3100615A68 /* Kingfisher */; };
+		F9D0A3092D280B3E00615A68 /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A3082D280B3E00615A68 /* YouTubeiOSPlayerHelper */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F99418E22D2805C800EFAA93 /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +43,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9D0A3062D280B3100615A68 /* Kingfisher in Frameworks */,
+				F9D0A3002D280B0C00615A68 /* Alamofire in Frameworks */,
+				F9D0A3032D280B1F00615A68 /* SnapKit in Frameworks */,
+				F9D0A3092D280B3E00615A68 /* YouTubeiOSPlayerHelper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +89,10 @@
 			);
 			name = Movies;
 			packageProductDependencies = (
+				F9D0A2FF2D280B0C00615A68 /* Alamofire */,
+				F9D0A3022D280B1F00615A68 /* SnapKit */,
+				F9D0A3052D280B3100615A68 /* Kingfisher */,
+				F9D0A3082D280B3E00615A68 /* YouTubeiOSPlayerHelper */,
 			);
 			productName = Movies;
 			productReference = F99418E22D2805C800EFAA93 /* Movies.app */;
@@ -107,6 +122,12 @@
 			);
 			mainGroup = F99418D92D2805C800EFAA93;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F9D0A2FE2D280B0C00615A68 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				F9D0A3012D280B1F00615A68 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				F9D0A3042D280B3100615A68 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				F9D0A3072D280B3E00615A68 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F99418E32D2805C800EFAA93 /* Products */;
 			projectDirPath = "";
@@ -343,6 +364,64 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F9D0A2FE2D280B0C00615A68 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		F9D0A3012D280B1F00615A68 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		F9D0A3042D280B3100615A68 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.3;
+			};
+		};
+		F9D0A3072D280B3E00615A68 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F9D0A2FF2D280B0C00615A68 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9D0A2FE2D280B0C00615A68 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		F9D0A3022D280B1F00615A68 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9D0A3012D280B1F00615A68 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		F9D0A3052D280B3100615A68 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9D0A3042D280B3100615A68 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		F9D0A3082D280B3E00615A68 /* YouTubeiOSPlayerHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9D0A3072D280B3E00615A68 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;
+			productName = YouTubeiOSPlayerHelper;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F99418DA2D2805C800EFAA93 /* Project object */;
 }
