@@ -11,6 +11,7 @@
 		F9D0A3032D280B1F00615A68 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A3022D280B1F00615A68 /* SnapKit */; };
 		F9D0A3062D280B3100615A68 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A3052D280B3100615A68 /* Kingfisher */; };
 		F9D0A3092D280B3E00615A68 /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A3082D280B3E00615A68 /* YouTubeiOSPlayerHelper */; };
+		F9D0A4A32D2832FD00615A68 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = F9D0A4A22D2832FD00615A68 /* Localize_Swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,11 @@
 			path = Movies;
 			sourceTree = "<group>";
 		};
+		F9D0A4A02D2832CF00615A68 /* Localization */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Localization;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +51,7 @@
 			files = (
 				F9D0A3062D280B3100615A68 /* Kingfisher in Frameworks */,
 				F9D0A3002D280B0C00615A68 /* Alamofire in Frameworks */,
+				F9D0A4A32D2832FD00615A68 /* Localize_Swift in Frameworks */,
 				F9D0A3032D280B1F00615A68 /* SnapKit in Frameworks */,
 				F9D0A3092D280B3E00615A68 /* YouTubeiOSPlayerHelper in Frameworks */,
 			);
@@ -56,6 +63,7 @@
 		F99418D92D2805C800EFAA93 = {
 			isa = PBXGroup;
 			children = (
+				F9D0A4A02D2832CF00615A68 /* Localization */,
 				F99418E42D2805C800EFAA93 /* Movies */,
 				F99418E32D2805C800EFAA93 /* Products */,
 			);
@@ -86,6 +94,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				F99418E42D2805C800EFAA93 /* Movies */,
+				F9D0A4A02D2832CF00615A68 /* Localization */,
 			);
 			name = Movies;
 			packageProductDependencies = (
@@ -93,6 +102,7 @@
 				F9D0A3022D280B1F00615A68 /* SnapKit */,
 				F9D0A3052D280B3100615A68 /* Kingfisher */,
 				F9D0A3082D280B3E00615A68 /* YouTubeiOSPlayerHelper */,
+				F9D0A4A22D2832FD00615A68 /* Localize_Swift */,
 			);
 			productName = Movies;
 			productReference = F99418E22D2805C800EFAA93 /* Movies.app */;
@@ -119,6 +129,7 @@
 			knownRegions = (
 				en,
 				Base,
+				uk,
 			);
 			mainGroup = F99418D92D2805C800EFAA93;
 			minimizedProjectReferenceProxies = 1;
@@ -127,6 +138,7 @@
 				F9D0A3012D280B1F00615A68 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				F9D0A3042D280B3100615A68 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				F9D0A3072D280B3E00615A68 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
+				F9D0A4A12D2832FD00615A68 /* XCRemoteSwiftPackageReference "Localize-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F99418E32D2805C800EFAA93 /* Products */;
@@ -228,6 +240,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -291,6 +304,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -398,6 +412,14 @@
 				minimumVersion = 1.0.4;
 			};
 		};
+		F9D0A4A12D2832FD00615A68 /* XCRemoteSwiftPackageReference "Localize-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Localize-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -420,6 +442,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F9D0A3072D280B3E00615A68 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */;
 			productName = YouTubeiOSPlayerHelper;
+		};
+		F9D0A4A22D2832FD00615A68 /* Localize_Swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F9D0A4A12D2832FD00615A68 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+			productName = Localize_Swift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
