@@ -1,0 +1,47 @@
+# Xcode
+*.xcuserstate
+*.xcworkspace
+*.xccheckout
+*.xcscmblueprint
+
+# User-specific settings
+*.xcuserdata/
+*.xcodeproj/*
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Build artifacts
+build/
+DerivedData/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# Device-related files
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# UI State files
+*.storyboardc
+*.UserInterfaceState.xcuserstate
+
+# Breakpoints
+*.breakpoints
+
+# Other
+*.swp
+*.swo
+.DS_Store
+*.orig
