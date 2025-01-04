@@ -37,11 +37,6 @@
 			path = Movies;
 			sourceTree = "<group>";
 		};
-		F9D0A4A02D2832CF00615A68 /* Localization */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Localization;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +58,6 @@
 		F99418D92D2805C800EFAA93 = {
 			isa = PBXGroup;
 			children = (
-				F9D0A4A02D2832CF00615A68 /* Localization */,
 				F99418E42D2805C800EFAA93 /* Movies */,
 				F99418E32D2805C800EFAA93 /* Products */,
 			);
@@ -94,7 +88,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				F99418E42D2805C800EFAA93 /* Movies */,
-				F9D0A4A02D2832CF00615A68 /* Localization */,
 			);
 			name = Movies;
 			packageProductDependencies = (
