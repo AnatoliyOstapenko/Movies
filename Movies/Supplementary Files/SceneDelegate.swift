@@ -17,7 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.windowScene = windowScene
         window?.overrideUserInterfaceStyle = .light
-        window?.rootViewController = UINavigationController(rootViewController: MovieListViewController())
+        let mainViewModel =  MovieListViewModel(movieService: MovieAPIService())
+        let navController = UINavigationController(
+            rootViewController: MovieListViewController(viewModel: mainViewModel)
+        )
+        window?.rootViewController = navController
         window?.makeKeyAndVisible()
     }
 
