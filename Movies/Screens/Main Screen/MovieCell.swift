@@ -107,8 +107,6 @@ class MovieCell: UITableViewCell {
         if let path = movie.posterPath {
             let url = URL(string: "https://image.tmdb.org/t/p/w500\(path)")
             posterImageView.kf.setImage(with: url)
-        } else {
-            posterImageView.image = UIImage(systemName: "film")
         }
         titleLabel.text = movie.name
         genreLabel.text = movie.genreList
