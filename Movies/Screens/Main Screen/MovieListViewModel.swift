@@ -164,17 +164,19 @@ class MovieListViewModel {
     func handleSorting(_ sortOption: SortOption) {
         isLoading = true
         defer { isLoading = false }
+
+        let uniqueMovies = Array(Set(allMovies))
+        var sortedMovies: [Movie] = []
         
-        var sortedMovies = allMovies
         switch sortOption {
         case .popularity:
-            sortedMovies = allMovies.sorted(by: { $0.voteAverage > $1.voteAverage})
+            sortedMovies = uniqueMovies.sorted(by: { $0.voteAverage > $1.voteAverage})
         case .title:
-            sortedMovies = allMovies.sorted {
+            sortedMovies = uniqueMovies.sorted {
                 $0.title.compare($1.title, options: .caseInsensitive, locale: .current) == .orderedAscending
             }
         case .releaseDate:
-            sortedMovies = allMovies.sorted(by: {$0.releaseDate.toDate > $1.releaseDate.toDate})
+            sortedMovies = uniqueMovies.sorted(by: {$0.releaseDate.toDate > $1.releaseDate.toDate})
         }
         movies = sortedMovies
     }

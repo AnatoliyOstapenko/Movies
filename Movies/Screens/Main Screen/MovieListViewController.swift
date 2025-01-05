@@ -109,10 +109,9 @@ class MovieListViewController: UIViewController {
     }
     
     private func updateSnapshot(movies: [Movie]) {
-        let uniqueMovies = Array(Set(movies))
         var snapshot = NSDiffableDataSourceSnapshot<Int, Movie>()
         snapshot.appendSections([0])
-        snapshot.appendItems(uniqueMovies, toSection: 0)
+        snapshot.appendItems(movies, toSection: 0)
         
         if movies.isEmpty {
             self.showEmptyView(
