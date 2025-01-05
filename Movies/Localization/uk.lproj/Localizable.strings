@@ -27,3 +27,8 @@
 
 // MARK: Detailed Screen
 "rating %@" = "Рейтинг: %@";
+
+// MARK: Empty states
+"emptyMovies" = "Не вдалося завантажити список фільмів";
+"emptyMovie" = "Не вдалося завантажити cторінку фільму";
+"emptySearchResult" = "Немає фільмів з такою назвою, будь ласка, спробуйте інші";

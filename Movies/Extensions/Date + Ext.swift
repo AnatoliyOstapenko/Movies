@@ -10,7 +10,7 @@ import Foundation
 extension Date {
     var shortYear: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         formatter.locale = Locale(identifier: "uk_UA")
         let formattedDate = formatter.string(from: self)
         return formattedDate.capitalized

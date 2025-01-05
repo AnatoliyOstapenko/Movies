@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct MovieResponse: Decodable {
+struct MovieResponse: Codable {
     let page: Int
     let results: [Movie]
 }
 
-struct Movie: Decodable,Identifiable {
+struct Movie: Codable, Identifiable, Hashable {
     let id: Int
     let title: String
     let posterPath: String?
@@ -59,7 +59,12 @@ struct MovieDetail: Decodable {
         case voteAverage = "vote_average"
         case productionCountries = "production_countries"
     }
-    
+}
+
+extension MovieDetail {
+    var countryYear: String {
+        return "\(productionCountries.first?.name ?? ""), \(String(releaseDate.prefix(4)))"
+    }
 }
 
 struct ProductionCountry: Decodable {
@@ -90,4 +95,3 @@ enum SortOption {
     case title
     case releaseDate
 }
-

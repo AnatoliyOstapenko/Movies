@@ -11,6 +11,7 @@ import SnapKit
 import Kingfisher
 
 class MovieListViewController: UIViewController {
+    
     private lazy var navigationBar: CustomNavigationBar = {
         let navBar = CustomNavigationBar()
         navBar.hasRightButton = true
@@ -24,7 +25,7 @@ class MovieListViewController: UIViewController {
         search.delegate = self
         return search
     }()
-
+    
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.register(MovieCell.self, forCellReuseIdentifier: MovieCell.reuseId)
@@ -33,17 +34,12 @@ class MovieListViewController: UIViewController {
         table.separatorStyle = .none
         table.backgroundColor = .white
         table.showsVerticalScrollIndicator = false
-        table.dataSource = self
         table.delegate = self
         return table
     }()
-    
-    private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
-    
+
+    private let emptyView = EmptyView()
+    private var dataSource: UITableViewDiffableDataSource<Int, Movie>!
     private var viewModel: MovieListViewModel
     private var cancellables: Set<AnyCancellable> = []
     
@@ -60,6 +56,7 @@ class MovieListViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        setupDataSource()
         setupBindings()
     }
     
@@ -70,11 +67,17 @@ class MovieListViewController: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = .white
-        [navigationBar, searchBar, tableView, tableView, activityIndicator].forEach{view.addSubview($0)}
-
+        [navigationBar, searchBar, tableView].forEach{view.addSubview($0)}
+        
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         tableView.refreshControl = refreshControl
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+        
+        setupKeyboardToolbar()
     }
     
     private func setupConstraints() {
@@ -93,22 +96,44 @@ class MovieListViewController: UIViewController {
             make.top.equalTo(searchBar.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
-        
-        activityIndicator.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+    }
+    
+    private func setupDataSource() {
+        dataSource = UITableViewDiffableDataSource<Int, Movie>(tableView: tableView) { (tableView, indexPath, movie) -> UITableViewCell? in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reuseId, for: indexPath) as? MovieCell else {
+                return UITableViewCell()
+            }
+            cell.configure(with: movie)
+            return cell
         }
     }
     
+    private func updateSnapshot(movies: [Movie]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Movie>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(movies, toSection: 0)
+        
+        if movies.isEmpty {
+            self.showEmptyView(
+                view: view,
+                message: viewModel.searchQuery.isEmpty ?
+                Localization.Empty.emptyMovies : Localization.Empty.emptySearchResult
+            )
+        } else {
+            self.hideEmptyView(view: view)
+        }
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+
     private func setupBindings() {
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
                 if isLoading {
-                    self?.activityIndicator.startAnimating()
+                    self?.showActivityIndicator()
                 } else {
-                    self?.activityIndicator.stopAnimating()
+                    self?.hideActivityIndicator()
                     self?.tableView.refreshControl?.endRefreshing()
-                    self?.tableView.reloadData()
                 }
             }.store(in: &cancellables)
         
@@ -116,13 +141,16 @@ class MovieListViewController: UIViewController {
             .compactMap{$0}
             .receive(on: DispatchQueue.main)
             .sink { [weak self] errorMessage in
-                self?.showAlert(title: Localization.Errors.errorTitle, message: errorMessage)
+                guard let self else { return }
+                self.showEmptyView(view: view, message: Localization.Empty.emptyMovies)
+                self.showAlert(title: Localization.Errors.errorTitle, message: errorMessage)
             }.store(in: &cancellables)
         
         viewModel.$movies
             .receive(on: DispatchQueue.main)
-            .sink{ [weak self] _ in
-                self?.tableView.reloadData()
+            .sink{ [weak self] movies in
+                guard let self else { return }
+                self.updateSnapshot(movies: movies)
             }.store(in: &cancellables)
         
         viewModel.loadMovies()
@@ -132,58 +160,58 @@ class MovieListViewController: UIViewController {
                 self?.showSortingOptions()
             }.store(in: &cancellables)
     }
-
+    
     @objc private func refreshData(){
         viewModel.refresh()
+    }
+    
+    @objc private func handleTap() {
+        searchBar.resignFirstResponder()
+    }
+    
+    private func setupKeyboardToolbar() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "", style: .done, target: self, action: #selector(handleTap))
+        doneButton.image = UIImage(systemName: "keyboard.chevron.compact.down")
+        doneButton.tintColor = .black
+        toolbar.items = [flexibleSpace, doneButton, flexibleSpace]
+        searchBar.inputAccessoryView = toolbar
     }
     
     private func showSortingOptions() {
         let alertController = UIAlertController(title: Localization.Main.sortBy, message: nil, preferredStyle: .actionSheet)
         
-        let popularityAction = UIAlertAction(title: Localization.Main.popularity, style: .default) { [weak self] _ in
-            self?.viewModel.handleSorting(.popularity)
+        func createAction(for option: SortOption, title: String) -> UIAlertAction {
+            let isSelected = (option == viewModel.selectedSortOption)
+            let action = UIAlertAction(title: title, style: .default) { [weak self] _ in
+                self?.viewModel.selectedSortOption = option
+                self?.viewModel.handleSorting(option)
+            }
+            if isSelected {
+                action.setValue(true, forKey: "checked")
+            }
+            return action
         }
-        let titleAction = UIAlertAction(title: Localization.Main.title, style: .default) { [weak self] _ in
-            self?.viewModel.handleSorting(.title)
-        }
-        let releaseAction = UIAlertAction(title: Localization.Main.releaseDate, style: .default) { [weak self] _ in
-            self?.viewModel.handleSorting(.releaseDate)
-        }
-        
+        let popularityAction = createAction(for: .popularity, title: Localization.Main.popularity)
+        let titleAction = createAction(for: .title, title: Localization.Main.title)
+        let releaseAction = createAction(for: .releaseDate, title: Localization.Main.releaseDate)
         let cancelAction = UIAlertAction(title: Localization.Buttons.cancel, style: .cancel, handler: nil)
+        
         [popularityAction, titleAction, releaseAction, cancelAction].forEach { alertController.addAction($0) }
+        
         present(alertController, animated: true, completion: nil)
     }
-    
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localization.Buttons.ok, style: .default))
-        present(alert, animated: true)
-    }
-    
 }
 
-extension MovieListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.movies.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reuseId, for: indexPath) as? MovieCell else {
-            return UITableViewCell()
-        }
-        let movie = viewModel.movies[indexPath.row]
-        cell.configure(with: movie)
-        return cell
-    }
-}
-
-extension MovieListViewController: UITableViewDelegate{
+extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selectedMovie = viewModel.movies[indexPath.row]
-        viewModel.selectMovie(movie: selectedMovie)
+        guard let movie = dataSource.itemIdentifier(for: indexPath) else { return }
+        viewModel.selectMovie(movie: movie)
     }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height

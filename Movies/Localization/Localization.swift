@@ -35,4 +35,10 @@ struct Localization {
         static func rating(_ rate: String) -> String { "rating %@".localizedFormat(rate) }
         static var trailer: String { "trailer".localized() }
     }
+    
+    enum Empty {
+        static var emptyMovies: String { "emptyMovies".localized() }
+        static var emptyMovie: String { "emptyMovie".localized() }
+        static var emptySearchResult: String { "emptySearchResult".localized() }
+    }
 }

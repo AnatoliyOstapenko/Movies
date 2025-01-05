@@ -27,3 +27,8 @@
 
 // MARK: Detailed Screen
 "rating %@" = "Rating: %@";
+
+// MARK: Empty states
+"emptyMovies" = "Failed to load a movie list";
+"emptyMovie" = "Failed to load a movie page";
+"emptySearchResult" = "No movies with this title, please try others";
