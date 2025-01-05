@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  Movies
+
+  Created by Anatoliy Ostapenko on 03.01.2025.
+  
+*/
+
+// MARK: Errors
+"errorTitle" = "Error";
+"offline" = "You are offline. Please, enable your Wi-Fi or connect using cellular data.";
+"youtubeError %@" = "Failed to load the video: %@";
+
+// MARK: Main Screen
+"mainTitle" = "Popular Movies";
+"searching" = "Search by movie title";
+"sortBy" = "Sort By";
+"popularity" = "Popularity";
+"title" = "Title";
+"releaseDate" = "Release Date";
+
+// MARK: Buttons
+"cancel" = "Cancel";
+"trailer" = "Trailer";
+"close" = "Close";
+"ok" = "OK";
+
+// MARK: Detailed Screen
+"rating %@" = "Rating: %@";
+
+// MARK: Empty states
+"emptyMovies" = "Failed to load a movie list";
+"emptyMovie" = "Failed to load a movie page";
+"emptySearchResult" = "No movies with this title, please try others";

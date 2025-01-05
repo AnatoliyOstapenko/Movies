@@ -1,0 +1,34 @@
+/* 
+  Localizable.strings
+  Movies
+
+  Created by Anatoliy Ostapenko on 03.01.2025.
+  
+*/
+
+// MARK: Errors
+"errorTitle" = "Помилка";
+"offline" = "Ви перебуваєте в режимі офлайн. Будь ласка, увімкніть Wi-Fi або підключіться за допомогою мобільного зв'язку.";
+"youtubeError %@" = "Не вдалося завантажити відео: %@";
+
+// MARK: Main Screen
+"mainTitle" = "Популярні фільми";
+"searching" = "Пошук за назвою фільму";
+"sortBy" = "Сортувати за";
+"popularity" = "Популярність";
+"title" = "Назва";
+"releaseDate" = "Дата релізу";
+
+// MARK: Buttons
+"cancel" = "Скасувати";
+"trailer" = "Трейлер";
+"close" = "Закрити";
+"ok" = "ОК";
+
+// MARK: Detailed Screen
+"rating %@" = "Рейтинг: %@";
+
+// MARK: Empty states
+"emptyMovies" = "Не вдалося завантажити список фільмів";
+"emptyMovie" = "Не вдалося завантажити cторінку фільму";
+"emptySearchResult" = "Немає фільмів з такою назвою, будь ласка, спробуйте інші";
