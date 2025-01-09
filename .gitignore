@@ -3,6 +3,7 @@
 *.xcworkspace
 *.xccheckout
 *.xcscmblueprint
+*.xcconfig
 
 # User-specific settings
 *.xcuserdata/
