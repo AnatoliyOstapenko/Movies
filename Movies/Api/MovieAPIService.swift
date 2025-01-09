@@ -62,12 +62,13 @@ class MovieAPIService {
 
 extension MovieAPIService {
     private func request<T: Decodable>(endpoint: ApiService) -> AnyPublisher<T, APIError> {
-        guard let token = UserSettings.token else {
+                
+        guard !Environment.token.isEmpty else {
             return Fail(error: .invalidToken).eraseToAnyPublisher()
         }
 
         let headers = HTTPHeaders([
-            .authorization(bearerToken: token)
+            .authorization(bearerToken: Environment.token)
         ])
 
         return AF.request(
