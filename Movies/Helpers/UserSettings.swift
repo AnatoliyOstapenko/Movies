@@ -16,7 +16,6 @@ enum UserSettingsKey: String {
 struct UserSettings {
     @Password(.token)
     static var token: String?
-    
     static func clear() {
         token = nil
     }

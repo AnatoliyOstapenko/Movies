@@ -8,14 +8,10 @@
 import Foundation
 
 struct WebUrl {
-    static let prodUrl = "https://api.themoviedb.org/3"
+    static let prodUrl = Environment.baseUrl
 }
 
 public struct ApiMovie {
-    static var host: String {
-         return "api.themoviedb.org"
-    }
-    
     static var baseURL: String {
         return WebUrl.prodUrl
     }
