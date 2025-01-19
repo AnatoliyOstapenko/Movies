@@ -47,7 +47,7 @@ class MovieAPIService {
         return request(endpoint: .movieDetails(movieId: movieId))
     }
     
-    func searchMovies(query: String, page:Int = 1) -> AnyPublisher<MovieResponse, APIError> {
+    func searchMovies(query: String, page: Int = 1) -> AnyPublisher<MovieResponse, APIError> {
         return request(endpoint: .searchMovies(query: query, page: page))
     }
     
@@ -61,7 +61,7 @@ class MovieAPIService {
 }
 
 extension MovieAPIService {
-    private func request<T: Decodable>(endpoint: ApiService) -> AnyPublisher<T, APIError> {
+    private func request<T: Decodable>(endpoint: ApiService, method: HTTPMethod = .get) -> AnyPublisher<T, APIError> {
                 
         guard !Environment.token.isEmpty else {
             return Fail(error: .invalidToken).eraseToAnyPublisher()
@@ -73,7 +73,7 @@ extension MovieAPIService {
 
         return AF.request(
             endpoint.url,
-            method: .get,
+            method: method,
             parameters: endpoint.parameters,
             encoding: URLEncoding.default,
             headers: headers
