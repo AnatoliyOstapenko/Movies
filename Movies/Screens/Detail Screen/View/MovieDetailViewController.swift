@@ -82,6 +82,7 @@ class MovieDetailViewController: UIViewController {
     private let padding: CGFloat = 16
     private var viewModel: MovieDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
+    weak var coordinator: AppCoordinator?
     
     init(viewModel: MovieDetailViewModel, title: String) {
         self.viewModel = viewModel
@@ -219,17 +220,12 @@ class MovieDetailViewController: UIViewController {
     
     @objc func posterTapped(){
         guard let posterImage = posterImageView.image else { return }
-        let fullScreenVC = FullScreenImageViewController(image: posterImage)
-        fullScreenVC.modalPresentationStyle = .overFullScreen
-        self.present(fullScreenVC, animated: true)
+        coordinator?.startFullScreenImage(with: posterImage)
     }
     
     @objc private func trailerButtonTapped() {
         guard let trailerKey = viewModel.movieTrailer?.key else { return }
-        
-        let fullScreenVC = TrailerViewController(trailerKey: trailerKey)
-        fullScreenVC.modalPresentationStyle = .overFullScreen
-        self.present(fullScreenVC, animated: true)
+        coordinator?.startTrailer(with: trailerKey)
     }
 }
 

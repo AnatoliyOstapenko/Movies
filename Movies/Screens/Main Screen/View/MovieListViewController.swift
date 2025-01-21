@@ -42,6 +42,7 @@ class MovieListViewController: UIViewController {
     private var dataSource: UITableViewDiffableDataSource<Int, Movie>!
     private var viewModel: MovieListViewModel
     private var cancellables: Set<AnyCancellable> = []
+    weak var coordinator: AppCoordinator?
     
     init(viewModel: MovieListViewModel) {
         self.viewModel = viewModel
@@ -209,7 +210,11 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let movie = dataSource.itemIdentifier(for: indexPath) else { return }
-        viewModel.selectMovie(movie: movie)
+        guard let coordinator else {
+            print("coordinator is nil")
+            return
+        }
+        coordinator.startDetail(with: movie)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -170,7 +170,7 @@ class MovieListViewModel {
         
         switch sortOption {
         case .popularity:
-            sortedMovies = uniqueMovies.sorted(by: { $0.voteAverage > $1.voteAverage})
+            sortedMovies = uniqueMovies.sorted(by: { $0.voteAverage > $1.voteAverage })
         case .title:
             sortedMovies = uniqueMovies.sorted {
                 $0.title.compare($1.title, options: .caseInsensitive, locale: .current) == .orderedAscending
@@ -179,16 +179,5 @@ class MovieListViewModel {
             sortedMovies = uniqueMovies.sorted(by: {$0.releaseDate.toDate > $1.releaseDate.toDate})
         }
         movies = sortedMovies
-    }
-    
-    func selectMovie(movie: Movie) {
-        let detailViewModel = MovieDetailViewModel(movieService: self.movieService, movieId: movie.id)
-        let movieDetailViewController = MovieDetailViewController(
-            viewModel: detailViewModel,
-            title: movie.title
-        )
-        
-        guard let topNavController = UIApplication.topNavController() else { return }
-        topNavController.pushViewController(movieDetailViewController, animated: true)
     }
 }
