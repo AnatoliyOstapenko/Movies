@@ -42,7 +42,7 @@ class MovieListViewController: UIViewController {
     private var dataSource: UITableViewDiffableDataSource<Int, Movie>!
     private var viewModel: MovieListViewModel
     private var cancellables: Set<AnyCancellable> = []
-    weak var coordinator: AppCoordinator?
+    weak var coordinator: MainCoordinatorProtocol?
     
     init(viewModel: MovieListViewModel) {
         self.viewModel = viewModel

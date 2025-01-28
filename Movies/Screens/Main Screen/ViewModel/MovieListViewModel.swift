@@ -23,10 +23,10 @@ class MovieListViewModel {
     private var sortOption = SortOption.popularity
     private var genres: [Genre] = []
     
-    private var movieService: MovieAPIService
+    private let movieService: APIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
  
-    init(movieService: MovieAPIService) {
+    init(movieService: APIServiceProtocol) {
         self.movieService = movieService
         loadGenres()
     }

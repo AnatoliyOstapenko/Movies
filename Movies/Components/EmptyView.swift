@@ -40,7 +40,7 @@ class EmptyView: UIView {
     private func setupConstraints(){
         label.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-             make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
     }
 }
