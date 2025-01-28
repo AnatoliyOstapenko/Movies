@@ -15,10 +15,10 @@ class MovieDetailViewModel {
     @Published var movieTrailer: Trailer?
     
     private var movieId: Int
-    private var movieService: MovieAPIService
+    private var movieService: APIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    init(movieService: MovieAPIService, movieId: Int) {
+    init(movieService: APIServiceProtocol, movieId: Int) {
         self.movieService = movieService
         self.movieId = movieId
     }

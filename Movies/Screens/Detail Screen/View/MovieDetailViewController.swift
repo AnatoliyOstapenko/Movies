@@ -11,22 +11,16 @@ import SnapKit
 import Kingfisher
 
 class MovieDetailViewController: UIViewController {
+    // MARK: UI Elements
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     private lazy var navigationBar: CustomNavigationBar = {
         let navBar = CustomNavigationBar()
         navBar.hasLeftButton = true
         return navBar
     }()
-    
-    private lazy var scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        return scroll
-    }()
-    
-    private lazy var contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
+
     private lazy var posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -68,21 +62,17 @@ class MovieDetailViewController: UIViewController {
     }()
     
     private lazy var trailerButton: UIButton = {
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = Localization.Buttons.trailer
-        configuration.baseBackgroundColor = .darkGray
-        configuration.baseForegroundColor = .white
-        configuration.cornerStyle = .capsule
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-        let button = UIButton(configuration: configuration)
-        button.addTarget(self, action: #selector(trailerButtonTapped), for: .touchUpInside)
-        return button
+        UIButton.makeFilledButton(
+            title: Localization.Buttons.trailer,
+            target: self,
+            action: #selector(trailerButtonTapped)
+        )
     }()
     
     private let padding: CGFloat = 16
     private var viewModel: MovieDetailViewModel
     private var cancellables: Set<AnyCancellable> = []
-    weak var coordinator: AppCoordinator?
+    weak var coordinator: MainCoordinatorProtocol?
     
     init(viewModel: MovieDetailViewModel, title: String) {
         self.viewModel = viewModel
@@ -101,6 +91,8 @@ class MovieDetailViewController: UIViewController {
         setupBindings()
         viewModel.loadDetails()
     }
+    
+    // MARK: Configure UI
     private func setupViews() {
         view.backgroundColor = .white
         navigationItem.backButtonTitle = ""
@@ -167,7 +159,7 @@ class MovieDetailViewController: UIViewController {
             make.bottom.equalToSuperview().inset(padding)
         }
     }
-    
+    // MARK: Bindings
     private func setupBindings(){
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
@@ -217,7 +209,7 @@ class MovieDetailViewController: UIViewController {
         descriptionLabel.text = detail.overview
         ratingLabel.text = Localization.Detailed.rating(String(format:"%.1f", detail.voteAverage))
     }
-    
+    // MARK: Selectors
     @objc func posterTapped(){
         guard let posterImage = posterImageView.image else { return }
         coordinator?.startFullScreenImage(with: posterImage)

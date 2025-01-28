@@ -9,36 +9,15 @@ import Foundation
 import Alamofire
 import Combine
 
-enum APIError: Error, LocalizedError {
-    // For User
-    case offline
-    // For Debugging
-    case invalidToken
-    case invalidURL
-    case requestFailed(Error)
-    case invalidResponse
-    case decodingError(Error)
-    case unknown(Error)
-    
-    var errorDescription: String? {
-        switch self {
-        case .offline:
-            return Localization.Errors.offline
-        case .invalidToken:
-            return "Token is invalid. Please, check your token on https://api.themoviedb.org."
-        case .requestFailed(let error):
-            return "An request error occurred: \(error.localizedDescription)"
-        case .decodingError(let error):
-            return "An decoding error occurred: \(error.localizedDescription)"
-        case .unknown(let error):
-            return "An unknown error occurred: \(error.localizedDescription)"
-        case .invalidURL, .invalidResponse:
-            return "Something went wrong, try again later"
-        }
-    }
+protocol APIServiceProtocol {
+    func fetchPopularMovies(page: Int) -> AnyPublisher<MovieResponse, APIError>
+    func fetchMovieDetails(movieId: Int) -> AnyPublisher<MovieDetail, APIError>
+    func searchMovies(query: String, page: Int) -> AnyPublisher<MovieResponse, APIError>
+    func fetchMovieTrailer(movieId: Int) -> AnyPublisher<MovieTrailerResponse,APIError>
+    func fetchGenres() -> AnyPublisher<GenreResponse, APIError>
 }
 
-class MovieAPIService {
+class MovieAPIService: APIServiceProtocol {
     func fetchPopularMovies(page: Int = 1) -> AnyPublisher<MovieResponse, APIError> {
         return request(endpoint: .popularMovies(page: page))
     }
@@ -47,7 +26,7 @@ class MovieAPIService {
         return request(endpoint: .movieDetails(movieId: movieId))
     }
     
-    func searchMovies(query: String, page:Int = 1) -> AnyPublisher<MovieResponse, APIError> {
+    func searchMovies(query: String, page: Int = 1) -> AnyPublisher<MovieResponse, APIError> {
         return request(endpoint: .searchMovies(query: query, page: page))
     }
     
