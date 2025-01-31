@@ -1,5 +1,5 @@
 //
-//  ApiMovie.swift
+//  MovieAPIEndpoints.swift
 //  Movies
 //
 //  Created by Anatoliy Ostapenko on 04.01.2025.
@@ -7,11 +7,7 @@
 
 import Foundation
 
-struct WebUrl {
-    static let prodUrl = Environment.baseUrl
-}
-
-public struct ApiMovie {
+public struct MovieAPIEndpoints {
     static var baseURL: String {
         return WebUrl.prodUrl
     }
