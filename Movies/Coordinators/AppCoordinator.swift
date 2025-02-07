@@ -23,7 +23,7 @@ class AppCoordinator: Coordinator {
         let navController = UINavigationController()
         let mainCoordinator = MainCoordinator(
             navController: navController,
-            apiService: MovieAPIService()
+            apiService: MovieAPIClient()
         )
         mainCoordinator.start()
         childCoordinators = [mainCoordinator]

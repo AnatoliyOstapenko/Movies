@@ -1,5 +1,5 @@
 //
-//  MovieAPIService.swift
+//  MovieAPIClient.swift
 //  Movies
 //
 //  Created by Anatoliy Ostapenko on 04.01.2025.
@@ -17,7 +17,7 @@ protocol APIServiceProtocol {
     func fetchGenres() -> AnyPublisher<GenreResponse, APIError>
 }
 
-class MovieAPIService: APIServiceProtocol {
+class MovieAPIClient: APIServiceProtocol {
     func fetchPopularMovies(page: Int = 1) -> AnyPublisher<MovieResponse, APIError> {
         return request(endpoint: .popularMovies(page: page))
     }
@@ -39,8 +39,8 @@ class MovieAPIService: APIServiceProtocol {
     }
 }
 
-extension MovieAPIService {
-    private func request<T: Decodable>(endpoint: ApiService, method: HTTPMethod = .get) -> AnyPublisher<T, APIError> {
+extension MovieAPIClient {
+    private func request<T: Decodable>(endpoint: APIEndpoint, method: HTTPMethod = .get) -> AnyPublisher<T, APIError> {
                 
         guard !Environment.token.isEmpty else {
             return Fail(error: .invalidToken).eraseToAnyPublisher()
