@@ -23,6 +23,7 @@ final class CustomNavigationBar: UIView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .black
+        label.numberOfLines = 0
         label.textAlignment = .center
         return label
     }()
@@ -66,6 +67,13 @@ final class CustomNavigationBar: UIView {
 
     private func setupViews() {
         [backButton, titleLabel, rightButton].forEach{addSubview($0)}
+        
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        backButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        backButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
         backButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
@@ -74,6 +82,7 @@ final class CustomNavigationBar: UIView {
         
         titleLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
+            make.leading.equalTo(backButton.snp.trailing).offset(8)
         }
         
         rightButton.snp.makeConstraints { make in
