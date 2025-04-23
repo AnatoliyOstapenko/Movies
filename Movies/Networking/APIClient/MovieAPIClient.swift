@@ -77,10 +77,7 @@ extension MovieAPIClient {
             return value
         }
         .mapError { error -> APIError in
-            if let apiError = error as? APIError {
-                return apiError
-            }
-            return .unknown(error)
+            return error as? APIError ?? .unknown(error)
         }
         .eraseToAnyPublisher()
     }

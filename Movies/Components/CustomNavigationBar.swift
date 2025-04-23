@@ -10,6 +10,7 @@ import SnapKit
 import Combine
 
 final class CustomNavigationBar: UIView {
+    // MARK: UI Components
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -37,6 +38,7 @@ final class CustomNavigationBar: UIView {
         return button
     }()
     
+    // MARK: Public Properties
     var title: String = String() {
         didSet { titleLabel.text = title }
     }
@@ -54,26 +56,31 @@ final class CustomNavigationBar: UIView {
     }
 
     let rightButtonTap = PassthroughSubject<Void, Never>()
+    
+    // MARK: Private
     private var cancellables = Set<AnyCancellable>()
-
+    
+    // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupViews()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    // MARK: Setup
     private func setupViews() {
         [backButton, titleLabel, rightButton].forEach{addSubview($0)}
         
-        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        backButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-
-        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        backButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        
+        [titleLabel, backButton].forEach {
+            $0.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            $0.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        }
+    }
+    
+    private func setupConstraints() {
         backButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
@@ -91,19 +98,10 @@ final class CustomNavigationBar: UIView {
             make.size.equalTo(24)
         }
     }
-
-    private func configure(with title: String, showBackButton: Bool, rightButtonImage: UIImage?) {
-        titleLabel.text = title
-        backButton.isHidden = !showBackButton
-        
-        if let image = rightButtonImage {
-            rightButton.setImage(image, for: .normal)
-            rightButton.isHidden = false
-        }
-    }
-
+    
+    // MARK: Actions
     @objc private func backButtonTapped() {
-        guard let navController = UIApplication.topNavController() else { return }
+        guard let navController = UIApplication.topNavigationController() else { return }
         navController.popViewController(animated: true)
     }
     

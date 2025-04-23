@@ -16,14 +16,19 @@ protocol MainCoordinatorProtocol: Coordinator {
 class MainCoordinator: MainCoordinatorProtocol {
     private let navController: UINavigationController
     private let apiService: APIServiceProtocol
+    private let networkMonitor: NetworkMonitorProtocol
     
-    init(navController: UINavigationController, apiService: APIServiceProtocol) {
+    init(navController: UINavigationController, apiService: APIServiceProtocol, networkMonitor: NetworkMonitorProtocol) {
         self.navController = navController
         self.apiService = apiService
+        self.networkMonitor = networkMonitor
     }
     
     func start() {
-        let viewModel = MovieListViewModel(movieService: apiService)
+        let viewModel = MovieListViewModel(
+            movieService: apiService,
+            networkMonitor: networkMonitor
+        )
         let movieListViewController = MovieListViewController(viewModel: viewModel)
         movieListViewController.coordinator = self
         navController.pushViewController(movieListViewController, animated: false)

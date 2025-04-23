@@ -209,11 +209,8 @@ class MovieListViewController: UIViewController {
 extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let movie = dataSource.itemIdentifier(for: indexPath) else { return }
-        guard let coordinator else {
-            print("coordinator is nil")
-            return
-        }
+        guard let movie = dataSource.itemIdentifier(for: indexPath),
+              let coordinator else { return }
         coordinator.startDetail(with: movie)
     }
     

@@ -21,10 +21,15 @@ class AppCoordinator: Coordinator {
     
     func start() {
         let navController = UINavigationController()
+        let apiService = MovieAPIClient()
+        let networkMonitor = NetworkMonitor.shared
+        
         let mainCoordinator = MainCoordinator(
             navController: navController,
-            apiService: MovieAPIClient()
+            apiService: apiService,
+            networkMonitor: networkMonitor
         )
+        
         mainCoordinator.start()
         childCoordinators = [mainCoordinator]
         window.rootViewController = navController

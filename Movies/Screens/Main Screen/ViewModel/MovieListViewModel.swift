@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 import UIKit
-import Network
 
 class MovieListViewModel {
     @Published var movies: [Movie] = []
@@ -23,18 +22,16 @@ class MovieListViewModel {
     private var sortOption = SortOption.popularity
     private var genres: [Genre] = []
     
+    private let networkMonitor: NetworkMonitorProtocol
     private let movieService: APIServiceProtocol
     private var cancellables = Set<AnyCancellable>()
  
-    init(movieService: APIServiceProtocol) {
+    init(movieService: APIServiceProtocol, networkMonitor: NetworkMonitorProtocol) {
         self.movieService = movieService
+        self.networkMonitor = networkMonitor
         loadGenres()
     }
 
-    deinit {
-        NetworkMonitor.shared.stopMonitoring()
-    }
-    
     func refresh(){
         currentPage = 1
         allMovies = []
@@ -44,15 +41,19 @@ class MovieListViewModel {
     
     func loadMovies() {
         guard !isFetchingData else { return }
-        
         isLoading = true
         isFetchingData = true
         
-        if NetworkMonitor.shared.isConnected {
-            loadFromNetwork()
-        } else {
-            loadFromCache()
-        }
+        networkMonitor.isConnected
+            .removeDuplicates()
+            .sink { [weak self] isConected in
+                if isConected {
+                    self?.loadFromNetwork()
+                } else {
+                    self?.loadFromCache()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func loadFromNetwork() {
@@ -140,10 +141,18 @@ class MovieListViewModel {
     }
     
     func search(query: String) {
-        guard NetworkMonitor.shared.isConnected else {
-            searchingOffline(with: query)
-            return
-        }
+        networkMonitor.isConnected
+            .first()
+            .sink { [weak self] isConnected in
+                guard let self else { return }
+                isConnected
+                ? self.searchOnline(with: query)
+                : self.searchingOffline(with: query)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func searchOnline(with query: String) {
         self.searchQuery = query
         self.currentPage = 1
         self.allMovies = []

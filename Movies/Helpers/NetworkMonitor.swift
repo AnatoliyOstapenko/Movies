@@ -5,44 +5,34 @@
 //  Created by Anatoliy Ostapenko on 05.01.2025.
 //
 
-import Foundation
+import UIKit
+import Combine
 import Network
 
-enum ConnectionType { case wifi, cellular, wiredEthernet, unknown }
+protocol NetworkMonitorProtocol {
+    var isConnected: AnyPublisher<Bool, Never> { get }
+}
 
-final class NetworkMonitor {
+class NetworkMonitor: NetworkMonitorProtocol {
     static let shared = NetworkMonitor()
-    private let queue = DispatchQueue.global()
-    private let monitor: NWPathMonitor
-    public private(set) var isConnected = false
-    public private(set) var connectionType: ConnectionType = .unknown
-    
+    private let monitor = NWPathMonitor()
+    private let queue = DispatchQueue(label: "NetworkMonitor")
+    private let _isConnected = CurrentValueSubject<Bool, Never>(true)
+    public private(set) var isConnected: AnyPublisher<Bool, Never>
+
     private init() {
-        monitor = NWPathMonitor()
+        isConnected = _isConnected.eraseToAnyPublisher()
+        startMonitoring()
     }
 
-    func startMonitoring() {
-        monitor.start(queue: self.queue)
+    private func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
-            guard let self = self else { return }
-            self.isConnected = path.status != .unsatisfied
-            self.updateConnectionType(path)
+            self?._isConnected.send(path.status == .satisfied)
         }
+        monitor.start(queue: queue)
     }
-    
-    func stopMonitoring() {
+
+    deinit {
         monitor.cancel()
-    }
-    
-    private func updateConnectionType(_ path: NWPath) {
-        if path.usesInterfaceType(.wifi) {
-            connectionType = .wifi
-        } else if path.usesInterfaceType(.cellular) {
-            connectionType = .cellular
-        } else if path.usesInterfaceType(.wiredEthernet) {
-            connectionType = .wiredEthernet
-        } else {
-            connectionType = .unknown
-        }
     }
 }
